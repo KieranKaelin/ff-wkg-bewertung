@@ -1,0 +1,22 @@
+{
+  "language": "Deutsch",
+  "evaluation_card": {
+    "elapsed_time": "Zeit Hindernisübung",
+    "error_points": "Fehlerpunkte",
+    "total_points": "Gesamtpunkte",
+    "sum": "Summe",
+    "send": "Abschicken",
+    "per_occurrence": "je Fall",
+    "youth": {
+      "error_at_obstacle": "Fehler am Hindernis",
+      "twisting_of_hose": "Verdrehen des Schlauches",
+      "open_coupling_pair": "Offenes Kupplungspaar",
+      "incorrect_laying_of_c_hose": "Falsches Verlegen der C-Löschleitung",
+      "device_left_or_lost": "Liegengebliebenes oder verlorenes Gerät",
+      "device_incorrectly_placed": "Falsch am Gerätegestell abgelegtes Gerät",
+      "incorrect_knot": "Falsch angefertigter Knoten",
+      "incorrect_work": "Falsches Arbeiten",
+      "speaking_while_working": "Sprechen während der Arbeit"
+    }
+  }
+}
