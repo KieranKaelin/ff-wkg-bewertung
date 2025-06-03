@@ -41,7 +41,6 @@ export const useStore = create<State & Actions>()(
           set(({ errors }) => ({
             errors: errors.map((e) => {
               if (e.key === key) {
-                console.log("ay");
                 e.occurrences += 1;
               }
               return e;

@@ -46,4 +46,4 @@ export const YOUTH_VALUES = [
     points: 10,
     i18n: "evaluation_card.youth.speaking_while_working",
   },
-] as const satisfies Exclude<State["errors"], "occurrences">;
+] as const satisfies Omit<State["errors"][number], "occurrences">[];
