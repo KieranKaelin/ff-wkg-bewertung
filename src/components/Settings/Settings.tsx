@@ -98,7 +98,7 @@ export function Settings() {
           <Modal opened={scanning} onClose={close} title={t("settings.scan")}>
             <Scanner
               onScan={(result) => {
-                const values = JSON.parse(result.rawValue);
+                const values = JSON.parse((result as any).rawValue);
                 form.getInputProps("serviceAccount").onChange({
                   currentTarget: { value: values.serviceAccount },
                 });
