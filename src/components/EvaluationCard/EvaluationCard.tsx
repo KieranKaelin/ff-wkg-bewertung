@@ -12,6 +12,8 @@ import { useTranslation } from "react-i18next";
 import { useStore } from "@/store";
 import { IconMinus, IconPlus } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
+import { postEvaluation } from "@/sheets/post-evaluation";
+import { getTeams } from "@/sheets/get-teams";
 
 export function EvaluationCard() {
   const { t } = useTranslation();
@@ -115,8 +117,13 @@ export function EvaluationCard() {
         <Modal
           opened={opened}
           onClose={() => {
-            close();
-            reset();
+            postEvaluation().then(() => {
+              close();
+              reset();
+              getTeams().then((teams) => {
+                console.log(teams);
+              });
+            });
           }}
           title="Excel / Google Sheet Eintrag"
         >

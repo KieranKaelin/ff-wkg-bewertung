@@ -1,5 +1,31 @@
 {
   "language": "Deutsch",
+  "teams": {
+    "select_label": "Aktuelle Gruppe"
+  },
+  "settings": {
+    "save": "Speichern",
+    "evaluator": {
+      "label": "Bewerter Name",
+      "placeholder": "Bitte geben Sie Ihren Namen ein",
+      "description": "Ihr Name wird neben Ihren Einträgen in Google Sheets erscheinen (z.B. Max Mustermann)."
+    },
+    "service_account": {
+      "label": "Google Sheets Service Account",
+      "placeholder": "Bitte geben Sie Ihren API-Schlüssel ein",
+      "description": "Die E-Mail Adresse des Service Accounts (z.B. fjla-bewerter-app@ff-bewertung.iam.gserviceaccount.com)"
+    },
+    "sheet_id": {
+      "label": "Google Sheets Sheet-ID",
+      "placeholder": "Bitte geben Sie die Sheet-ID ein",
+      "description": "Die ID des Google Sheets, auslesbar aus der URL (z.B. docs.google.com/spreadsheets/d/1585U02LzEsUFORR6to0aTSnLRPLvPhoMnlCh9kEVY28/edit)."
+    },
+    "private_key": {
+      "label": "Google Sheets API Private Key",
+      "placeholder": "Bitte geben Sie den Private Key ein",
+      "description": "Der Private Key des Service Accounts (z.B. -----BEGIN PRIVATE KEY...)"
+    }
+  },
   "evaluation_card": {
     "elapsed_time": "Zeit Hindernisübung",
     "error_points": "Fehlerpunkte",
