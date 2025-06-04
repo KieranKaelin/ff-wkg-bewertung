@@ -1,6 +1,6 @@
 import { State } from "@/store";
 
-export const YOUTH_VALUES = [
+export const VALUES_OBSTACLE = [
   {
     key: "error_at_obstacle",
     points: 10,

@@ -1,10 +1,23 @@
 {
   "language": "Deutsch",
+  "navigation": {
+    "label": "Navigation",
+    "menu": "Menü",
+    "obstacle": "Hindernisbahn",
+    "relay": "Staffellauf",
+    "settings": "Einstellungen",
+    "choose": "Wähle eine Disziplin aus",
+    "change_hint": "Die Disziplin kann später über die Navigation geändert werden."
+  },
   "teams": {
     "select_label": "Aktuelle Gruppe"
   },
   "settings": {
     "save": "Speichern",
+    "theme": "Farbschema",
+    "errors": {
+      "empty": "Das Feld darf nicht leer sein."
+    },
     "evaluator": {
       "label": "Bewerter Name",
       "placeholder": "Bitte geben Sie Ihren Namen ein",
@@ -32,6 +45,21 @@
     "total_points": "Gesamtpunkte",
     "sum": "Summe",
     "send": "Abschicken",
+    "confirm_modal": {
+      "title": "Bewertung abschicken?",
+      "confirm": "Senden",
+      "cancel": "Zurück"
+    },
+    "categories": {
+      "BoW": "Bronze ohne Wertung",
+      "BmW": "Bronze mit Wertung",
+      "SoW": "Silber ohne Wertung",
+      "SmW": "Silber mit Wertung"
+    },
+    "choose_team": {
+      "label": "Aktuelle Gruppe",
+      "placeholder": "Wähle eine Gruppe aus"
+    },
     "per_occurrence": "je Fall",
     "youth": {
       "error_at_obstacle": "Fehler am Hindernis",

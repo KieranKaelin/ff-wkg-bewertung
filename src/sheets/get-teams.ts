@@ -1,19 +1,16 @@
 import { getSheetsAccessToken } from "@/sheets/access-token";
 import { z } from "zod/v4";
-import { LocalStorage } from "@/store/localStorage";
+import { useSettingsStore } from "@/store/settings";
 
-const GOOGLE_SHEETS_PAGE = "Gruppen!A2:A1000";
+const GOOGLE_SHEETS_PAGE = "Gruppen!A2:C1000";
 
 const TeamsType = z.object({
-  values: z.array(z.tuple([z.string()])),
+  values: z.array(z.tuple([z.coerce.number().int(), z.string(), z.string()])),
 });
 
 export type Teams = Awaited<ReturnType<typeof getTeams>>;
 export const getTeams = async () => {
-  const settings = LocalStorage.get();
-  if (!settings) {
-    throw new Error("settings is not defined");
-  }
+  const settings = useSettingsStore.getState().settings!;
 
   const accessToken = await getSheetsAccessToken();
 
@@ -31,8 +28,13 @@ export const getTeams = async () => {
   const teams = TeamsType.safeParse(result);
 
   if (!teams.success) {
+    console.error(result);
     throw new Error(`failed to parse teams: ${teams.error.message}`);
   }
 
-  return teams.data.values.map(([groupName]: string[]) => ({ groupName }));
+  return teams.data.values.map(([startNumber, groupName, category]) => ({
+    startNumber,
+    groupName,
+    category,
+  }));
 };

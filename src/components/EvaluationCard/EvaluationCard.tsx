@@ -5,27 +5,38 @@ import {
   Group,
   Modal,
   NumberFormatter,
+  NumberInput,
+  Paper,
   Stack,
   Text,
+  ThemeIcon,
+  Transition,
 } from "@mantine/core";
 import { useTranslation } from "react-i18next";
 import { useStore } from "@/store";
-import { IconMinus, IconPlus } from "@tabler/icons-react";
+import {
+  IconBuildingTunnel,
+  IconMinus,
+  IconPlus,
+  IconRun,
+} from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import { postEvaluation } from "@/sheets/post-evaluation";
-import { getTeams } from "@/sheets/get-teams";
+import { useState } from "react";
+import classes from "./EvaluationCard.module.css";
 
-export function EvaluationCard() {
+export function EvaluationCard(props: { variant: "obstacle" | "relay" }) {
   const { t } = useTranslation();
 
-  const startNumber = useStore((state) => state.startNumber);
-  const groupName = useStore((state) => state.groupName);
-  const category = useStore((state) => state.category);
-  const withEvaluation = useStore((state) => state.withEvaluation);
-  const elapsedTime = useStore((state) => state.elapsedTime);
+  const [timeError, setTimeError] = useState<boolean>(false);
+  const [sending, setSending] = useState<boolean>(false);
+
+  const team = useStore((state) => state.team);
   const errors = useStore((state) => state.errors);
   const addError = useStore((state) => state.addError);
   const subError = useStore((state) => state.subError);
+  const elapsedTime = useStore((state) => state.elapsedTime);
+  const setElapsedTime = useStore((state) => state.setTime);
   const reset = useStore((state) => state.reset);
 
   const [opened, { open, close }] = useDisclosure(false);
@@ -80,69 +91,153 @@ export function EvaluationCard() {
   ));
 
   return (
-    <Stack>
-      <Grid m={16} justify="center" align="center">
-        <Grid.Col span={6}>{t("evaluation_card.elapsed_time")}</Grid.Col>
-        <Grid.Col span={2} offset={4}>
-          <Center>
-            <NumberFormatter suffix="s" value={elapsedTime} />
-          </Center>
-        </Grid.Col>
+    <Transition
+      mounted={!!team}
+      transition="fade"
+      duration={400}
+      timingFunction="ease"
+    >
+      {(styles) => (
+        <div style={styles}>
+          <Stack>
+            <Grid m={16} justify="center" align="center">
+              <Grid.Col span={6}>{t("evaluation_card.error_points")}</Grid.Col>
+              <Grid.Col span={2} offset={4}>
+                <Center>
+                  <Text>{t("evaluation_card.sum")}</Text>
+                </Center>
+              </Grid.Col>
 
-        <Grid.Col span={6}>{t("evaluation_card.error_points")}</Grid.Col>
-        <Grid.Col span={2} offset={4}>
-          <Center>
-            <Text>{t("evaluation_card.sum")}</Text>
-          </Center>
-        </Grid.Col>
+              {items}
 
-        {items}
+              <Grid.Col span={6}>{t("evaluation_card.error_points")}</Grid.Col>
+              <Grid.Col span={2} offset={4}>
+                <Center>
+                  <Text>{totalErrorPoints}</Text>
+                </Center>
+              </Grid.Col>
 
-        <Grid.Col span={6}>{t("evaluation_card.error_points")}</Grid.Col>
-        <Grid.Col span={2} offset={4}>
-          <Center>
-            <Text>{totalErrorPoints}</Text>
-          </Center>
-        </Grid.Col>
+              <Grid.Col span={6}>{t("evaluation_card.elapsed_time")}</Grid.Col>
+              <Grid.Col span={6}>
+                <NumberInput
+                  suffix="s"
+                  value={elapsedTime}
+                  decimalScale={2}
+                  fixedDecimalScale
+                  allowNegative={false}
+                  onChange={(value) => {
+                    setElapsedTime(Number.parseFloat(value.toString()));
+                    setTimeError(false);
+                  }}
+                  error={timeError ? t("settings.errors.empty") : undefined}
+                />
+              </Grid.Col>
+            </Grid>
 
-        <Grid.Col span={6}>{t("evaluation_card.total_points")}</Grid.Col>
-        <Grid.Col span={2} offset={4}>
-          <Center>
-            <NumberFormatter value={62.86} />
-          </Center>
-        </Grid.Col>
-      </Grid>
+            <Group m={16}>
+              <Modal
+                opened={opened}
+                onClose={() => close()}
+                title={t("evaluation_card.confirm_modal.title")}
+                centered
+              >
+                <Stack>
+                  <Paper
+                    radius="md"
+                    withBorder
+                    className={classes.card}
+                    mt={20}
+                  >
+                    <ThemeIcon
+                      variant="gradient"
+                      gradient={{ from: "red", to: "orange", deg: 90 }}
+                      className={classes.icon}
+                      size={60}
+                      radius={60}
+                    >
+                      {props.variant === "obstacle" ? (
+                        <IconBuildingTunnel size={32} stroke={1.5} />
+                      ) : (
+                        <IconRun size={32} stroke={1.5} />
+                      )}
+                    </ThemeIcon>
 
-      <Group m={16}>
-        <Modal
-          opened={opened}
-          onClose={() => {
-            postEvaluation().then(() => {
-              close();
-              reset();
-              getTeams().then((teams) => {
-                console.log(teams);
-              });
-            });
-          }}
-          title="Excel / Google Sheet Eintrag"
-        >
-          <Text>
-            {groupName};Nr.{startNumber};{category};
-            {withEvaluation ? "mit Wertung" : "ohne Wertung"};{elapsedTime}{" "}
-            Sekunden;{totalErrorPoints} Fehlerpunkte
-          </Text>
-        </Modal>
+                    <Text ta="center" fw={700} className={classes.title}>
+                      {team?.startNumber}. {team?.groupName}
+                    </Text>
+                    <Text c="dimmed" ta="center" fz="sm">
+                      {t(`evaluation_card.categories.${team?.category}` as any)}
+                    </Text>
 
-        <Button
-          fullWidth
-          variant="gradient"
-          gradient={{ from: "red", to: "orange", deg: 90 }}
-          onClick={open}
-        >
-          {t("evaluation_card.send")}
-        </Button>
-      </Group>
-    </Stack>
+                    <Group justify="space-between" mt="xs">
+                      <Text fz="sm" c="dimmed">
+                        {t("evaluation_card.error_points")}
+                      </Text>
+                      <Text fz="sm" c="dimmed">
+                        {totalErrorPoints}
+                      </Text>
+                    </Group>
+                    <Group justify="space-between" mt="xs">
+                      <Text fz="sm" c="dimmed">
+                        {t("evaluation_card.elapsed_time")}
+                      </Text>
+                      <Text fz="sm" c="dimmed">
+                        <NumberFormatter
+                          value={elapsedTime}
+                          suffix="s"
+                          decimalScale={2}
+                          fixedDecimalScale
+                        />
+                      </Text>
+                    </Group>
+                  </Paper>
+                  <Group justify="space-between">
+                    <Button
+                      gradient={{ from: "red", to: "orange", deg: 90 }}
+                      onClick={() => {
+                        close();
+                      }}
+                    >
+                      {t("evaluation_card.confirm_modal.cancel")}
+                    </Button>
+                    <Button
+                      variant="gradient"
+                      gradient={{ from: "red", to: "orange", deg: 90 }}
+                      disabled={sending}
+                      loading={sending}
+                      onClick={() => {
+                        setSending(true);
+                        postEvaluation().then(() => {
+                          close();
+                          reset(props.variant);
+                          setSending(false);
+                        });
+                      }}
+                    >
+                      {t("evaluation_card.confirm_modal.confirm")}
+                    </Button>
+                  </Group>
+                </Stack>
+              </Modal>
+
+              <Button
+                fullWidth
+                variant="gradient"
+                gradient={{ from: "red", to: "orange", deg: 90 }}
+                onClick={() => {
+                  if (elapsedTime) {
+                    open();
+                  } else {
+                    setTimeError(true);
+                  }
+                }}
+              >
+                {t("evaluation_card.send")}
+              </Button>
+            </Group>
+          </Stack>
+        </div>
+      )}
+    </Transition>
   );
 }

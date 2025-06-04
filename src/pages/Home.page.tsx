@@ -1,31 +1,34 @@
-import { EvaluationCard } from "@/components/EvaluationCard/EvaluationCard";
-import { Select, Stack } from "@mantine/core";
-import { useEffect, useState } from "react";
-import { getTeams, Teams } from "@/sheets/get-teams";
-import { useTranslation } from "react-i18next";
+import { Stack } from "@mantine/core";
 import { Settings } from "@/components/Settings/Settings";
+import { Navigation } from "@/components/Navigation/Navigation";
+import { useSettingsStore } from "@/store/settings";
+import { LocationPicker } from "@/components/LocationPicker/LocationPicker";
+import { Evaluation } from "@/components/Evaluation/Evaluation";
+import { EvaluationCard } from "@/components/EvaluationCard/EvaluationCard";
 
 export function HomePage() {
-  const { t } = useTranslation();
-
-  const [teams, setTeams] = useState<Teams | null>(null);
-  const [currentTeam, setCurrentTeam] = useState<string | null>(null);
-
-  useEffect(() => {
-    getTeams().then(setTeams);
-  }, []);
+  const settings = useSettingsStore((store) => store.settings);
+  const location = useSettingsStore((store) => store.location);
 
   return (
     <Stack m={16}>
-      <Settings />
-      <Select
-        label={t("teams.select_label")}
-        placeholder="Pick value"
-        onChange={(_value, option) => setCurrentTeam(option.value)}
-        data={teams ? teams.map(({ groupName }) => groupName) : []}
-      />
-      {currentTeam}
-      <EvaluationCard />
+      {!settings ? (
+        <Settings />
+      ) : !location ? (
+        <LocationPicker />
+      ) : (
+        <Stack>
+          <Navigation />
+          {location === "settings" ? (
+            <Settings />
+          ) : (
+            <>
+              <Evaluation variant={location} />
+              <EvaluationCard variant={location} />
+            </>
+          )}
+        </Stack>
+      )}
     </Stack>
   );
 }

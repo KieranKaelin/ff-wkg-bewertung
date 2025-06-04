@@ -1,13 +1,10 @@
 import * as jose from "jose";
-import { LocalStorage } from "@/store/localStorage";
+import { useSettingsStore } from "@/store/settings";
 
 const alg = "RS256";
 
 export const getSheetsAccessToken = async () => {
-  const settings = LocalStorage.get();
-  if (!settings) {
-    throw new Error("settings is not defined");
-  }
+  const settings = useSettingsStore.getState().settings!;
 
   const privateKey = await jose.importPKCS8(settings.privateKey, alg);
 

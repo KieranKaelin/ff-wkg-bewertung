@@ -1,12 +1,11 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import { YOUTH_VALUES } from "@/store/values.youth";
+import { VALUES_OBSTACLE } from "@/store/values.obstacle";
+import { Teams } from "@/sheets/get-teams";
+import { VALUES_RELAY } from "@/store/values.relay";
 
 export interface State {
-  startNumber: number;
-  groupName: string;
-  category: "bronze" | "silver";
-  withEvaluation: boolean;
+  team: Teams[number] | undefined;
   elapsedTime: number;
   errors: {
     key: string;
@@ -20,23 +19,23 @@ type Actions = {
   addError: (key: string) => void;
   subError: (key: string) => void;
   setTime: (time: number) => void;
-  reset: () => void;
+  setTeam: (team: Teams[number] | undefined) => void;
+  reset: (location: "obstacle" | "relay") => void;
 };
 
-const initialState = (): State => ({
-  startNumber: 1,
-  groupName: "Steinbrunn 1",
-  category: "bronze",
-  withEvaluation: true,
-  elapsedTime: 62.85,
-  errors: YOUTH_VALUES.map((v) => ({ ...v, occurrences: 0 })),
+const initialState = (location: "obstacle" | "relay"): State => ({
+  team: undefined,
+  elapsedTime: 0,
+  errors: (location === "obstacle" ? VALUES_OBSTACLE : VALUES_RELAY).map(
+    (v) => ({ ...v, occurrences: 0 }),
+  ),
 });
 
 export const useStore = create<State & Actions>()(
   devtools(
     persist(
       (set) => ({
-        ...initialState(),
+        ...initialState("obstacle"),
         addError: (key) =>
           set(({ errors }) => ({
             errors: errors.map((e) => {
@@ -56,7 +55,8 @@ export const useStore = create<State & Actions>()(
             }),
           })),
         setTime: (time) => set(() => ({ elapsedTime: time })),
-        reset: () => set(() => initialState()),
+        setTeam: (team) => set(() => ({ team })),
+        reset: (location) => set(() => initialState(location)),
       }),
       {
         name: "store",

@@ -1,29 +1,85 @@
-import { Button, Group, Stack, Textarea, TextInput } from "@mantine/core";
+import {
+  Button,
+  Group,
+  Stack,
+  Switch,
+  Textarea,
+  TextInput,
+  useComputedColorScheme,
+  useMantineColorScheme,
+} from "@mantine/core";
 import { useTranslation } from "react-i18next";
 import { useCallback } from "react";
-import { LocalStorage } from "@/store/localStorage";
 import { useForm } from "@mantine/form";
+import { useSettingsStore } from "@/store/settings";
+import { t } from "i18next";
+import { IconMoonStars, IconSun } from "@tabler/icons-react";
+
+const validate = (value: string) =>
+  /.+/.test(value.trim()) ? null : t("settings.errors.empty");
 
 export function Settings() {
   const { t } = useTranslation();
 
+  const { setColorScheme } = useMantineColorScheme();
+  const computedColorScheme = useComputedColorScheme("light", {
+    getInitialValueInEffect: true,
+  });
+
+  const settings = useSettingsStore((store) => store.settings);
+  const setSettings = useSettingsStore((store) => store.set);
+
   const form = useForm({
     mode: "uncontrolled",
-    initialValues: LocalStorage.get() ?? {
-      evaluator: "",
-      serviceAccount: "",
-      privateKey: "",
-      sheetId: "",
+    initialValues: {
+      evaluator: settings?.evaluator || "",
+      serviceAccount: settings?.serviceAccount || "",
+      privateKey: settings?.privateKey || "",
+      sheetId: settings?.sheetId || "",
+    },
+    validate: {
+      evaluator: validate,
+      serviceAccount: validate,
+      privateKey: validate,
+      sheetId: validate,
     },
   });
 
   const handleSubmit = useCallback((values: typeof form.values) => {
-    LocalStorage.set(values);
+    setSettings({
+      evaluator: values.evaluator.trim(),
+      serviceAccount: values.serviceAccount.trim(),
+      privateKey: values.privateKey.trim(),
+      sheetId: values.sheetId.trim(),
+    });
   }, []);
 
   return (
     <form onSubmit={form.onSubmit(handleSubmit)}>
       <Stack>
+        <Switch
+          color="red"
+          labelPosition="left"
+          checked={computedColorScheme === "light"}
+          onChange={() =>
+            setColorScheme(computedColorScheme === "light" ? "dark" : "light")
+          }
+          label={t("settings.theme")}
+          onLabel={
+            <IconSun
+              size={16}
+              stroke={2.5}
+              color="var(--mantine-color-yellow-4)"
+            />
+          }
+          offLabel={
+            <IconMoonStars
+              size={16}
+              stroke={2.5}
+              color="var(--mantine-color-blue-6)"
+            />
+          }
+        />
         <TextInput
           label={t("settings.evaluator.label")}
           placeholder={t("settings.evaluator.placeholder")}
@@ -53,12 +109,20 @@ export function Settings() {
           placeholder={t("settings.private_key.placeholder")}
           description={t("settings.private_key.description")}
           withAsterisk
+          autosize
           key={form.key("privateKey")}
           {...form.getInputProps("privateKey")}
         />
 
         <Group justify="flex-end" mt="md">
-          <Button type="submit">{t("settings.save")}</Button>
+          <Button
+            fullWidth
+            variant="gradient"
+            gradient={{ from: "red", to: "orange" }}
+            type="submit"
+          >
+            {t("settings.save")}
+          </Button>
         </Group>
       </Stack>
     </form>
