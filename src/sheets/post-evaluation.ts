@@ -26,6 +26,7 @@ export const postEvaluation = async () => {
         range: "Sheet1!A2",
         values: [
           [
+            settings.evaluator,
             store.groupName,
             store.startNumber,
             store.category,
