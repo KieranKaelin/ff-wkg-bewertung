@@ -1,6 +1,8 @@
 import {
+  ActionIcon,
   Button,
   Group,
+  Modal,
   Stack,
   Switch,
   Textarea,
@@ -13,7 +15,9 @@ import { useCallback } from "react";
 import { useForm } from "@mantine/form";
 import { useSettingsStore } from "@/store/settings";
 import { t } from "i18next";
-import { IconMoonStars, IconSun } from "@tabler/icons-react";
+import { IconMoonStars, IconQrcode, IconSun } from "@tabler/icons-react";
+import { Scanner } from "@yudiel/react-qr-scanner";
+import { useDisclosure } from "@mantine/hooks";
 
 const validate = (value: string) =>
   /.+/.test(value.trim()) ? null : t("settings.errors.empty");
@@ -25,6 +29,8 @@ export function Settings() {
   const computedColorScheme = useComputedColorScheme("light", {
     getInitialValueInEffect: true,
   });
+
+  const [scanning, { open, close }] = useDisclosure(false);
 
   const settings = useSettingsStore((store) => store.settings);
   const setSettings = useSettingsStore((store) => store.set);
@@ -57,29 +63,55 @@ export function Settings() {
   return (
     <form onSubmit={form.onSubmit(handleSubmit)}>
       <Stack>
-        <Switch
-          color="red"
-          labelPosition="left"
-          checked={computedColorScheme === "light"}
-          onChange={() =>
-            setColorScheme(computedColorScheme === "light" ? "dark" : "light")
-          }
-          label={t("settings.theme")}
-          onLabel={
-            <IconSun
-              size={16}
-              stroke={2.5}
-              color="var(--mantine-color-yellow-4)"
+        <Group justify="space-between">
+          <Switch
+            color="red"
+            labelPosition="left"
+            checked={computedColorScheme === "light"}
+            onChange={() =>
+              setColorScheme(computedColorScheme === "light" ? "dark" : "light")
+            }
+            label={t("settings.theme")}
+            onLabel={
+              <IconSun
+                size={16}
+                stroke={2.5}
+                color="var(--mantine-color-yellow-4)"
+              />
+            }
+            offLabel={
+              <IconMoonStars
+                size={16}
+                stroke={2.5}
+                color="var(--mantine-color-blue-6)"
+              />
+            }
+          />
+          <ActionIcon
+            variant="gradient"
+            size="xl"
+            gradient={{ from: "red", to: "orange" }}
+            onClick={open}
+          >
+            <IconQrcode />
+          </ActionIcon>
+          <Modal opened={scanning} onClose={close} title={t("settings.scan")}>
+            <Scanner
+              onScan={(result) => {
+                const values = JSON.parse(result.rawValue);
+                form.getInputProps("serviceAccount").onChange({
+                  currentTarget: { value: values.serviceAccount },
+                });
+                form.getInputProps("sheetId").onChange({
+                  currentTarget: { value: values.sheetId },
+                });
+                form.getInputProps("privateKey").onChange({
+                  currentTarget: { value: values.privateKey },
+                });
+              }}
             />
-          }
-          offLabel={
-            <IconMoonStars
-              size={16}
-              stroke={2.5}
-              color="var(--mantine-color-blue-6)"
-            />
-          }
-        />
+          </Modal>
+        </Group>
         <TextInput
           label={t("settings.evaluator.label")}
           placeholder={t("settings.evaluator.placeholder")}

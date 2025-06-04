@@ -15,6 +15,7 @@
   "settings": {
     "save": "Speichern",
     "theme": "Farbschema",
+    "scan": "QR-Code scannen (aus Google Sheets)",
     "errors": {
       "empty": "Das Feld darf nicht leer sein."
     },
