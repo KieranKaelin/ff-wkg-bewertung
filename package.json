@@ -25,7 +25,6 @@
     "@mantine/hooks": "8.0.2",
     "@metamask/browser-passworder": "^6.0.0",
     "@tabler/icons-react": "^3.34.0",
-    "buffer": "^6.0.3",
     "i18next": "^25.2.1",
     "i18next-browser-languagedetector": "^8.1.0",
     "jose": "^6.0.11",
@@ -70,6 +69,7 @@
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.32.0",
     "vite": "^6.3.5",
+    "vite-plugin-node-polyfills": "^0.23.0",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.1.3"
   }
