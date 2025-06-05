@@ -206,6 +206,7 @@ export function EvaluationCard(props: { variant: "obstacle" | "relay" }) {
                   </Paper>
                   <Group justify="space-between">
                     <Button
+                      size="lg"
                       gradient={{ from: "red", to: "orange", deg: 90 }}
                       onClick={() => {
                         close();
@@ -214,6 +215,7 @@ export function EvaluationCard(props: { variant: "obstacle" | "relay" }) {
                       {t("evaluation_card.confirm_modal.cancel")}
                     </Button>
                     <Button
+                      size="lg"
                       variant="gradient"
                       gradient={{ from: "red", to: "orange", deg: 90 }}
                       disabled={sending}
