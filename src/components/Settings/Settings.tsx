@@ -46,12 +46,13 @@ export function Settings() {
             sheetId: data.sheetId,
           }),
         )
-        .catch(() =>
+        .catch((error) => {
+          console.error("failed to decrypt", error);
           form.setFieldError(
             "password",
             t("settings.errors.incorrect_password"),
-          ),
-        ),
+          );
+        }),
     [],
   );
 
