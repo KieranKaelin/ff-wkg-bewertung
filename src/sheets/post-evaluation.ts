@@ -23,7 +23,6 @@ export const postEvaluation = async () => {
         range: sheet,
         values: [
           [
-            settings!.evaluator,
             store.team?.startNumber,
             store.team?.groupName,
             store.team?.category,
@@ -32,6 +31,7 @@ export const postEvaluation = async () => {
               (acc, cur) => acc + cur.occurrences * cur.points,
               0,
             ),
+            settings!.evaluator,
             ...store.errors.map((e) => e.occurrences * e.points),
             new Date().toISOString(),
           ],
