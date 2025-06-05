@@ -1,5 +1,6 @@
 {
   "language": "Deutsch",
+  "title": "FJLA Bewertung",
   "navigation": {
     "label": "Navigation",
     "menu": "Menü",
@@ -16,28 +17,20 @@
     "save": "Speichern",
     "theme": "Farbschema",
     "scan": "QR-Code scannen (aus Google Sheets)",
+    "initial_setting": "Ersteinrichtung",
     "errors": {
-      "empty": "Das Feld darf nicht leer sein."
+      "empty": "Das Feld darf nicht leer sein.",
+      "incorrect_password": "Ungültiges Passwort"
     },
     "evaluator": {
       "label": "Bewerter Name",
       "placeholder": "Bitte geben Sie Ihren Namen ein",
       "description": "Ihr Name wird neben Ihren Einträgen in Google Sheets erscheinen (z.B. Max Mustermann)."
     },
-    "service_account": {
-      "label": "Google Sheets Service Account",
-      "placeholder": "Bitte geben Sie Ihren API-Schlüssel ein",
-      "description": "Die E-Mail Adresse des Service Accounts (z.B. fjla-bewerter-app@ff-bewertung.iam.gserviceaccount.com)"
-    },
-    "sheet_id": {
-      "label": "Google Sheets Sheet-ID",
-      "placeholder": "Bitte geben Sie die Sheet-ID ein",
-      "description": "Die ID des Google Sheets, auslesbar aus der URL (z.B. docs.google.com/spreadsheets/d/1585U02LzEsUFORR6to0aTSnLRPLvPhoMnlCh9kEVY28/edit)."
-    },
-    "private_key": {
-      "label": "Google Sheets API Private Key",
-      "placeholder": "Bitte geben Sie den Private Key ein",
-      "description": "Der Private Key des Service Accounts (z.B. -----BEGIN PRIVATE KEY...)"
+    "password": {
+      "label": "Passwort",
+      "placeholder": "Bitte geben Sie das Passwort ein",
+      "description": "Das Passwort wird für die Einträge in das Google Sheet benötigt."
     }
   },
   "evaluation_card": {

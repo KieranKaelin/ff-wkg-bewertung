@@ -20,11 +20,12 @@
     "storybook:build": "storybook build"
   },
   "dependencies": {
+    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@mantine/core": "8.0.2",
     "@mantine/form": "^8.0.2",
     "@mantine/hooks": "8.0.2",
+    "@metamask/browser-passworder": "^6.0.0",
     "@tabler/icons-react": "^3.34.0",
-    "@yudiel/react-qr-scanner": "^2.3.1",
     "i18next": "^25.2.1",
     "i18next-browser-languagedetector": "^8.1.0",
     "jose": "^6.0.11",
