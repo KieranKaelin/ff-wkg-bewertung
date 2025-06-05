@@ -7,10 +7,12 @@ import classes from "./Navigation.module.css";
 export function Navigation() {
   const { t } = useTranslation();
 
+  const location = useSettingsStore((store) => store.location);
   const setLocation = useSettingsStore((store) => store.setLocation);
 
   return (
     <SegmentedControl
+      value={location}
       fullWidth
       data={[
         {
