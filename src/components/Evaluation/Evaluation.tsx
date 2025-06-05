@@ -73,7 +73,7 @@ export function Evaluation(props: { variant: "obstacle" | "relay" }) {
         }))}
         renderOption={({ option, checked }) => (
           <Group flex="1" gap="xs">
-            <Text c="dimmed" ta="right" w={15}>
+            <Text c="dimmed" ta="right" w={20}>
               {option.value}.
             </Text>
             <Text>
