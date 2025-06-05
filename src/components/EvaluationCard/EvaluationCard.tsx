@@ -1,6 +1,7 @@
 import {
   Button,
   Center,
+  Divider,
   Grid,
   Group,
   Modal,
@@ -110,26 +111,40 @@ export function EvaluationCard(props: { variant: "obstacle" | "relay" }) {
 
               {items}
 
-              <Grid.Col span={6}>{t("evaluation_card.error_points")}</Grid.Col>
+              <Divider
+                my="sm"
+                style={{ width: "100%", marginLeft: "8px", marginRight: "8px" }}
+              />
+
+              <Grid.Col span={6}>
+                <Text size="lg">{t("evaluation_card.error_points")}</Text>
+              </Grid.Col>
               <Grid.Col span={2} offset={4}>
                 <Center>
-                  <Text>{totalErrorPoints}</Text>
+                  <Text size="lg">{totalErrorPoints}</Text>
                 </Center>
               </Grid.Col>
 
-              <Grid.Col span={6}>{t("evaluation_card.elapsed_time")}</Grid.Col>
+              <Grid.Col span={6}>
+                <Text size="lg">{t("evaluation_card.elapsed_time")}</Text>
+              </Grid.Col>
               <Grid.Col span={6}>
                 <NumberInput
+                  size="lg"
                   suffix="s"
                   value={elapsedTime}
                   decimalScale={2}
-                  fixedDecimalScale
                   allowNegative={false}
                   onChange={(value) => {
                     setElapsedTime(Number.parseFloat(value.toString()));
                     setTimeError(false);
                   }}
                   error={timeError ? t("settings.errors.empty") : undefined}
+                  onKeyDown={(key) => {
+                    if (key.key === "Enter" && elapsedTime) {
+                      open();
+                    }
+                  }}
                 />
               </Grid.Col>
             </Grid>
@@ -170,24 +185,22 @@ export function EvaluationCard(props: { variant: "obstacle" | "relay" }) {
                     </Text>
 
                     <Group justify="space-between" mt="xs">
-                      <Text fz="sm" c="dimmed">
-                        {t("evaluation_card.error_points")}
-                      </Text>
-                      <Text fz="sm" c="dimmed">
-                        {totalErrorPoints}
+                      <Text fz="sm">{t("evaluation_card.error_points")}</Text>
+                      <Text fz="sm">
+                        <b>{totalErrorPoints}</b>
                       </Text>
                     </Group>
                     <Group justify="space-between" mt="xs">
-                      <Text fz="sm" c="dimmed">
-                        {t("evaluation_card.elapsed_time")}
-                      </Text>
-                      <Text fz="sm" c="dimmed">
-                        <NumberFormatter
-                          value={elapsedTime}
-                          suffix="s"
-                          decimalScale={2}
-                          fixedDecimalScale
-                        />
+                      <Text fz="sm">{t("evaluation_card.elapsed_time")}</Text>
+                      <Text fz="sm">
+                        <b>
+                          <NumberFormatter
+                            value={elapsedTime}
+                            suffix="s"
+                            decimalScale={2}
+                            fixedDecimalScale
+                          />
+                        </b>
                       </Text>
                     </Group>
                   </Paper>
@@ -221,6 +234,7 @@ export function EvaluationCard(props: { variant: "obstacle" | "relay" }) {
               </Modal>
 
               <Button
+                size="lg"
                 fullWidth
                 variant="gradient"
                 gradient={{ from: "red", to: "orange", deg: 90 }}

@@ -11,6 +11,7 @@ import {
 } from "@mantine/core";
 import { IconBuildingTunnel, IconCheck, IconRun } from "@tabler/icons-react";
 import { useStore } from "@/store";
+import { getFinishedTeams } from "@/sheets/get-finished-teams";
 
 export function Evaluation(props: { variant: "obstacle" | "relay" }) {
   const { t } = useTranslation();
@@ -23,10 +24,21 @@ export function Evaluation(props: { variant: "obstacle" | "relay" }) {
   const setSelectedTeam = useStore((store) => store.setTeam);
 
   useEffect(() => {
-    setTeams(undefined);
-    reset(props.variant);
-    getTeams().then((teams) => setTeams(teams));
-  }, [props.variant]);
+    if (selectedTeam === undefined) {
+      (async () => {
+        setTeams(undefined);
+        reset(props.variant);
+        const [teams, finishedTeams] = await Promise.all([
+          getTeams(),
+          getFinishedTeams(),
+        ]);
+
+        setTeams(
+          teams.filter((team) => !finishedTeams.includes(team.startNumber)),
+        );
+      })();
+    }
+  }, [props.variant, selectedTeam]);
 
   const onChange = useCallback(
     (startNumber: string | null) => {
@@ -40,6 +52,7 @@ export function Evaluation(props: { variant: "obstacle" | "relay" }) {
   return (
     <Stack>
       <Select
+        size="lg"
         disabled={!teams}
         rightSection={!teams ? <Loader size={18} /> : null}
         leftSection={

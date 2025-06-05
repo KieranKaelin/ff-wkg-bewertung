@@ -35,8 +35,9 @@ export function Navigation() {
           value: "settings",
           label: (
             <Center style={{ gap: 10 }}>
+              <span>&nbsp;</span>
               <IconSettings size={16} />
-              <span>{t("navigation.settings")}</span>
+              <span>&nbsp;</span>
             </Center>
           ),
         },

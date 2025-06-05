@@ -34,7 +34,7 @@
     }
   },
   "evaluation_card": {
-    "elapsed_time": "Zeit Hindernisübung",
+    "elapsed_time": "Zeit",
     "error_points": "Fehlerpunkte",
     "total_points": "Gesamtpunkte",
     "sum": "Summe",
@@ -55,7 +55,7 @@
       "placeholder": "Wähle eine Gruppe aus"
     },
     "per_occurrence": "je Fall",
-    "youth": {
+    "obstacle": {
       "error_at_obstacle": "Fehler am Hindernis",
       "twisting_of_hose": "Verdrehen des Schlauches",
       "open_coupling_pair": "Offenes Kupplungspaar",
@@ -65,6 +65,11 @@
       "incorrect_knot": "Falsch angefertigter Knoten",
       "incorrect_work": "Falsches Arbeiten",
       "speaking_while_working": "Sprechen während der Arbeit"
+    },
+    "relay": {
+      "open_coupling_pair": "Offenes Kupplungspaar",
+      "illegal_obstacle_or_exercise": "Nicht ordnungsgemäß überwundenes Hindernis oder gelöste Aufgabe",
+      "stafette_not_in_goal": "Stafette wird nicht über die Ziellinie gebracht"
     }
   }
 }

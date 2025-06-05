@@ -4,17 +4,22 @@ import { useSettingsStore } from "@/store/settings";
 import { SHEET_AREAS } from "@/sheets/const";
 
 const TeamsType = z.object({
-  values: z.array(z.tuple([z.coerce.number().int(), z.string(), z.string()])),
+  values: z.array(z.tuple([z.coerce.number().int()])).optional(),
 });
 
-export type Teams = Awaited<ReturnType<typeof getTeams>>;
-export const getTeams = async () => {
+export const getFinishedTeams = async () => {
   const settings = useSettingsStore.getState().settings!;
+  const location = useSettingsStore.getState().location!;
 
   const accessToken = await getSheetsAccessToken();
 
+  const sheet =
+    location === "obstacle"
+      ? SHEET_AREAS.obstacleStartNumbers
+      : SHEET_AREAS.relayStartNumbers;
+
   const result = await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/${settings.sheetId}/values/${SHEET_AREAS.teams}`,
+    `https://sheets.googleapis.com/v4/spreadsheets/${settings.sheetId}/values/${sheet}`,
     {
       method: "GET",
       headers: {
@@ -31,11 +36,5 @@ export const getTeams = async () => {
     throw new Error(`failed to parse teams: ${teams.error.message}`);
   }
 
-  return teams.data.values
-    .map(([startNumber, groupName, category]) => ({
-      startNumber,
-      groupName,
-      category,
-    }))
-    .sort((a, b) => a.startNumber - b.startNumber);
+  return teams.data.values?.map(([startNumber]) => startNumber) || [];
 };

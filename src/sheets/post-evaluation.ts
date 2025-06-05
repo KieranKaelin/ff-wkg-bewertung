@@ -1,17 +1,18 @@
 import { getSheetsAccessToken } from "@/sheets/access-token";
 import { useStore } from "@/store";
 import { useSettingsStore } from "@/store/settings";
-
-export const GOOGLE_SHEETS_PAGE = "Sheet1!A2";
+import { SHEET_AREAS } from "@/sheets/const";
 
 export const postEvaluation = async () => {
-  const settings = useSettingsStore.getState().settings!;
+  const { settings, location } = useSettingsStore.getState();
   const store = useStore.getState();
 
   const accessToken = await getSheetsAccessToken();
 
+  const sheet =
+    location === "obstacle" ? SHEET_AREAS.obstacleAll : SHEET_AREAS.relayAll;
   await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/${settings.sheetId}/values/${GOOGLE_SHEETS_PAGE}:append?valueInputOption=USER_ENTERED`,
+    `https://sheets.googleapis.com/v4/spreadsheets/${settings!.sheetId}/values/${sheet}:append?valueInputOption=USER_ENTERED`,
     {
       method: "POST",
       headers: {
@@ -19,10 +20,10 @@ export const postEvaluation = async () => {
         Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
-        range: "Sheet1!A2",
+        range: sheet,
         values: [
           [
-            settings.evaluator,
+            settings!.evaluator,
             store.team?.startNumber,
             store.team?.groupName,
             store.team?.category,

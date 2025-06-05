@@ -2,13 +2,18 @@ import { State } from "@/store";
 
 export const VALUES_RELAY = [
   {
-    key: "error_at_obstacle",
+    key: "open_coupling_pair",
     points: 10,
-    i18n: "evaluation_card.youth.error_at_obstacle",
+    i18n: "evaluation_card.relay.open_coupling_pair",
   },
   {
-    key: "twisting_of_hose",
-    points: 5,
-    i18n: "evaluation_card.youth.twisting_of_hose",
+    key: "illegal_obstacle_or_exercise",
+    points: 10,
+    i18n: "evaluation_card.relay.illegal_obstacle_or_exercise",
+  },
+  {
+    key: "stafette_not_in_goal",
+    points: 20,
+    i18n: "evaluation_card.relay.stafette_not_in_goal",
   },
 ] as const satisfies Omit<State["errors"][number], "occurrences">[];
