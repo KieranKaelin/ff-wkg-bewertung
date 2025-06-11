@@ -41,6 +41,10 @@
     "send": "Abschicken",
     "confirm_modal": {
       "title": "Bewertung abschicken?",
+      "comment": {
+        "label": "Bemerkung (optional)",
+        "placeholder": "Füge eine Bemerkung hinzu..."
+      },
       "confirm": "Senden",
       "cancel": "Zurück"
     },

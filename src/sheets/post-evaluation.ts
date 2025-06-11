@@ -32,6 +32,7 @@ export const postEvaluation = async () => {
               0,
             ),
             settings!.evaluator,
+            store.comment?.trim(),
             ...store.errors.map((e) => e.occurrences * e.points),
             new Date().toISOString(),
           ],

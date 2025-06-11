@@ -10,6 +10,7 @@ import {
   Paper,
   Stack,
   Text,
+  Textarea,
   ThemeIcon,
   Transition,
 } from "@mantine/core";
@@ -38,6 +39,8 @@ export function EvaluationCard(props: { variant: "obstacle" | "relay" }) {
   const subError = useStore((state) => state.subError);
   const elapsedTime = useStore((state) => state.elapsedTime);
   const setElapsedTime = useStore((state) => state.setTime);
+  const comment = useStore((state) => state.comment);
+  const setComment = useStore((state) => state.setComment);
   const reset = useStore((state) => state.reset);
 
   const [opened, { open, close }] = useDisclosure(false);
@@ -204,6 +207,15 @@ export function EvaluationCard(props: { variant: "obstacle" | "relay" }) {
                       </Text>
                     </Group>
                   </Paper>
+                  <Textarea
+                    autosize
+                    value={comment}
+                    onChange={(event) => setComment(event.currentTarget.value)}
+                    label={t("evaluation_card.confirm_modal.comment.label")}
+                    placeholder={t(
+                      "evaluation_card.confirm_modal.comment.placeholder",
+                    )}
+                  />
                   <Group justify="space-between">
                     <Button
                       size="lg"

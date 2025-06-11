@@ -7,6 +7,7 @@ import { VALUES_RELAY } from "@/store/values.relay";
 export interface State {
   team: Teams[number] | undefined;
   elapsedTime: number;
+  comment: string | undefined;
   errors: {
     key: string;
     points: number;
@@ -19,6 +20,7 @@ type Actions = {
   addError: (key: string) => void;
   subError: (key: string) => void;
   setTime: (time: number) => void;
+  setComment: (comment: string) => void;
   setTeam: (team: Teams[number] | undefined) => void;
   reset: (location: "obstacle" | "relay") => void;
 };
@@ -26,6 +28,7 @@ type Actions = {
 const initialState = (location: "obstacle" | "relay"): State => ({
   team: undefined,
   elapsedTime: 0,
+  comment: undefined,
   errors: (location === "obstacle" ? VALUES_OBSTACLE : VALUES_RELAY).map(
     (v) => ({ ...v, occurrences: 0 }),
   ),
@@ -55,6 +58,7 @@ export const useStore = create<State & Actions>()(
             }),
           })),
         setTime: (time) => set(() => ({ elapsedTime: time })),
+        setComment: (comment) => set(() => ({ comment })),
         setTeam: (team) => set(() => ({ team })),
         reset: (location) => set(() => initialState(location)),
       }),
