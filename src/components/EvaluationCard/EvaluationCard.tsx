@@ -16,7 +16,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { useStore } from "@/store";
 import {
-  IconBuildingTunnel,
+  IconBuildingBridge2,
   IconMinus,
   IconPlus,
   IconRun,
@@ -171,7 +171,7 @@ export function EvaluationCard(props: { variant: "obstacle" | "relay" }) {
                       radius={60}
                     >
                       {props.variant === "obstacle" ? (
-                        <IconBuildingTunnel size={32} stroke={1.5} />
+                        <IconBuildingBridge2 size={32} stroke={1.5} />
                       ) : (
                         <IconRun size={32} stroke={1.5} />
                       )}

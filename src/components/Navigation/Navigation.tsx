@@ -1,6 +1,10 @@
 import { Center, SegmentedControl } from "@mantine/core";
 import { useTranslation } from "react-i18next";
-import { IconBuildingTunnel, IconRun, IconSettings } from "@tabler/icons-react";
+import {
+  IconBuildingBridge2,
+  IconRun,
+  IconSettings,
+} from "@tabler/icons-react";
 import { useSettingsStore } from "@/store/settings";
 import classes from "./Navigation.module.css";
 
@@ -19,7 +23,7 @@ export function Navigation() {
           value: "obstacle",
           label: (
             <Center style={{ gap: 10 }}>
-              <IconBuildingTunnel size={16} />
+              <IconBuildingBridge2 size={16} />
               <span>{t("navigation.obstacle")}</span>
             </Center>
           ),

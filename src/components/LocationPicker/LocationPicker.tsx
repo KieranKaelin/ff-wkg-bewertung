@@ -9,7 +9,7 @@ import {
 } from "@mantine/core";
 import { useTranslation } from "react-i18next";
 import { useSettingsStore } from "@/store/settings";
-import { IconBuildingTunnel, IconRun } from "@tabler/icons-react";
+import { IconBuildingBridge2, IconRun } from "@tabler/icons-react";
 import classes from "./LocationPicker.module.css";
 
 export function LocationPicker() {
@@ -38,7 +38,7 @@ export function LocationPicker() {
           onClick={() => setLocation("obstacle")}
         >
           <Center>
-            <IconBuildingTunnel
+            <IconBuildingBridge2
               size={50}
               stroke={1.5}
               color={theme.colors.red[7]}

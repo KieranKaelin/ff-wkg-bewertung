@@ -9,7 +9,7 @@ import {
   Text,
   useMantineTheme,
 } from "@mantine/core";
-import { IconBuildingTunnel, IconCheck, IconRun } from "@tabler/icons-react";
+import { IconBuildingBridge2, IconCheck, IconRun } from "@tabler/icons-react";
 import { useStore } from "@/store";
 import { getFinishedTeams } from "@/sheets/get-finished-teams";
 
@@ -57,7 +57,7 @@ export function Evaluation(props: { variant: "obstacle" | "relay" }) {
         rightSection={!teams ? <Loader size={18} /> : null}
         leftSection={
           props.variant === "obstacle" ? (
-            <IconBuildingTunnel color={theme.colors.red[6]} />
+            <IconBuildingBridge2 color={theme.colors.red[6]} />
           ) : (
             <IconRun color={theme.colors.red[6]} />
           )
